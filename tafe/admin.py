@@ -28,8 +28,8 @@ class CampusHoursAdmin(admin.ModelAdmin):
 	]
 	list_per_page = 10
 
-@admin.register(models.Restaurant)
-class RestaurantAdmin(admin.ModelAdmin):
+@admin.register(models.Facility)
+class FacilityAdmin(admin.ModelAdmin):
 	list_display = [
 		'campus',
 		'name',
@@ -39,10 +39,10 @@ class RestaurantAdmin(admin.ModelAdmin):
 	]
 	list_per_page = 10
 
-@admin.register(models.RestaurantHours)
-class RestaurantHoursAdmin(admin.ModelAdmin):
+@admin.register(models.FacilityHours)
+class FacilityHoursAdmin(admin.ModelAdmin):
 	list_display = [
-		'restaurant',
+		'facility',
 	]
 	list_per_page = 10
 
@@ -65,8 +65,8 @@ class IndustryAdmin(admin.ModelAdmin):
 	]
 	list_per_page = 10
 
-@admin.register(models.User)
-class UserAdmin(admin.ModelAdmin):
+@admin.register(models.Profile)
+class ProfileAdmin(admin.ModelAdmin):
 	list_display = [
 		'type',
 		'industry',

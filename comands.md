@@ -12,6 +12,8 @@
 
 <!-- Django Comands -->
 
+## python manage.py createsuperuser
+
 ## python manage.py migrate --fake campus zero
 
 ## python manage.py makemigrations

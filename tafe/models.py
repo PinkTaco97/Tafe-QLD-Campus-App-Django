@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+
+# Table to hold all of the Regions e.g. Gold Coast, Greater Brisbane.
 class Region(models.Model):
 	name = models.CharField(max_length=255, unique=True)
 	listed = models.BooleanField(default=True)
@@ -9,27 +11,8 @@ class Region(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
-class Campus(models.Model):
-	name = models.CharField(max_length=255, unique=True)
-	description = models.TextField(blank=True)
-	address = models.CharField(max_length=255,blank=True)
-	phone = models.CharField(max_length=255,blank=True)
-	region = models.ForeignKey(
-		Region,
-		on_delete=models.CASCADE,
-	)
-	latitude = models.DecimalField(max_digits=8, decimal_places=6)
-	longitude = models.DecimalField(max_digits=9, decimal_places=6)
-	listed = models.BooleanField(default=True)
-
-	def __str__(self) -> str:
-		return self.name
-
+# Table to hold all of the Camnpus Hours.
 class CampusHours(models.Model):
-	campus = models.ForeignKey(
-		Campus,
-		on_delete=models.CASCADE,
-	)
 	monOpen = models.TimeField()
 	monClose = models.TimeField()
 	tueOpen = models.TimeField()
@@ -45,11 +28,54 @@ class CampusHours(models.Model):
 	sunOpen = models.TimeField()
 	sunClose = models.TimeField()
 
+# Table to hold all of the Campus Information. e.g. Robina, Coomera.
+class Campus(models.Model):
+	name = models.CharField(max_length=255, unique=True)
+	description = models.TextField(blank=True)
+	address = models.CharField(max_length=255,blank=True)
+	phone = models.CharField(max_length=255,blank=True)
+	hours = models.OneToOneField(
+		CampusHours,
+		on_delete=models.CASCADE,
+	)
+	region = models.ForeignKey(
+		Region,
+		on_delete=models.PROTECT,
+	)
+	latitude = models.DecimalField(max_digits=8, decimal_places=6)
+	longitude = models.DecimalField(max_digits=9, decimal_places=6)
+	listed = models.BooleanField(default=True)
+
+	def __str__(self) -> str:
+		return self.name
+
+# Table to hold all of the Facility Hours.
+class FacilityHours(models.Model):
+	monOpen = models.TimeField()
+	monClose = models.TimeField()
+	tueOpen = models.TimeField()
+	tueClose = models.TimeField()
+	wedOpen = models.TimeField()
+	wedClose = models.TimeField()
+	thurOpen = models.TimeField()
+	thurClose = models.TimeField()
+	friOpen = models.TimeField()
+	friClose = models.TimeField()
+	satOpen = models.TimeField()
+	satClose = models.TimeField()
+	sunOpen = models.TimeField()
+	sunClose = models.TimeField()
+
+# Table to hold all of the Facilities. e.g. Cafe, Restaurant, Gym.
 class Facility(models.Model):
 	name = models.CharField(max_length=255, unique=True)
 	description = models.TextField(blank=True)
 	address = models.CharField(max_length=255,blank=True)
 	phone = models.CharField(max_length=255,blank=True)
+	hours = models.OneToOneField(
+		FacilityHours,
+		on_delete=models.CASCADE,
+	)
 	image = models.CharField(max_length=255,blank=True)
 	menuLink = models.CharField(max_length=255,blank=True)
 	bookingLink = models.CharField(max_length=255,blank=True)
@@ -62,26 +88,7 @@ class Facility(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
-class FacilityHours(models.Model):
-	facility = models.ForeignKey(
-		Facility,
-		on_delete=models.CASCADE,
-	)
-	monOpen = models.TimeField()
-	monClose = models.TimeField()
-	tueOpen = models.TimeField()
-	tueClose = models.TimeField()
-	wedOpen = models.TimeField()
-	wedClose = models.TimeField()
-	thurOpen = models.TimeField()
-	thurClose = models.TimeField()
-	friOpen = models.TimeField()
-	friClose = models.TimeField()
-	satOpen = models.TimeField()
-	satClose = models.TimeField()
-	sunOpen = models.TimeField()
-	sunClose = models.TimeField()
-
+# Table to hold all of the event information.
 class Event(models.Model):
 	title = models.CharField(max_length=255)
 	description = models.TextField(blank=True)
@@ -95,6 +102,7 @@ class Event(models.Model):
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	listed = models.BooleanField(default=True)
 
+# Table to hold all of the Industries. e.g. Business, Information Technology.
 class Industry(models.Model):
 	name = models.CharField(max_length=255, unique=True)
 	listed = models.BooleanField(default=True)
@@ -102,7 +110,8 @@ class Industry(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
-class Student(models.Model):
+# Table to hold all of the User Profile data.
+class Profile(models.Model):
 	TYPE_STUDENT = 'S'
 	TYPE_PARENT = 'P'
 	TYPE_TEACHER = 'T'
@@ -132,6 +141,7 @@ class Student(models.Model):
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	notificationToken  = models.CharField(max_length=255, blank=True)
 
+# Table to hold all of the Push Notifications.
 class Notification(models.Model):
 	TYPE_INDUSTRY = 'I'
 	TYPE_REGION = 'R'

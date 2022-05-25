@@ -11,13 +11,10 @@ class RegionSerializer(serializers.ModelSerializer):
 			'name',
 		]
 
-
-
 class CampusHoursSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = CampusHours
 		fields = [
-			'campus',
 			'monOpen',
 			'monClose',
 			'tueOpen',
@@ -35,6 +32,9 @@ class CampusHoursSerializer(serializers.ModelSerializer):
 		]
 
 class CampusSerializer(serializers.ModelSerializer):
+	
+	hours = CampusHoursSerializer()
+	
 	class Meta:
 		model = Campus
 		fields = [
@@ -45,27 +45,13 @@ class CampusSerializer(serializers.ModelSerializer):
 			'address',
 			'latitude',
 			'longitude',
+			'hours',
 		]
-
-class FacilitySerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Facility
-		fields = [
-			'id',
-			'campus',
-			'name',
-			'description',
-			'address',
-            'image',
-            'menuLink',
-            'bookingLink',
-		]
-
+	
 class FacilityHoursSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = FacilityHours
 		fields = [
-			'campus',
 			'monOpen',
 			'monClose',
 			'tueOpen',
@@ -80,6 +66,24 @@ class FacilityHoursSerializer(serializers.ModelSerializer):
             'satClose',
             'sunOpen',
             'sunClose',
+		]	
+
+class FacilitySerializer(serializers.ModelSerializer):
+
+	hours = FacilityHoursSerializer()
+
+	class Meta:
+		model = Facility
+		fields = [
+			'id',
+			'campus',
+			'name',
+			'description',
+			'address',
+			'hours',
+            'image',
+            'menuLink',
+            'bookingLink',
 		]
 
 class EventSerializer(serializers.ModelSerializer):
@@ -105,15 +109,16 @@ class IndustrySerializer(serializers.ModelSerializer):
 			'name',
 		]
 
-class StudentSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = Student
+		model = Profile
 		fields = [
 			'id',
 			'type',
 			'industry',
 			'region',
 			'campus',
+			'authUser',
 			'notificationToken',
 		]
 
@@ -149,8 +154,3 @@ class RegisterSerializer(serializers.ModelSerializer):
 		user.set_password(validated_data['password'])
 		user.save()
 		return user
-
-	
-
-
-
