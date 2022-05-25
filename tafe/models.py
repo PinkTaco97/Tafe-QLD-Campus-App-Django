@@ -1,5 +1,5 @@
-from atexit import register
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Region(models.Model):
@@ -45,7 +45,7 @@ class CampusHours(models.Model):
 	sunOpen = models.TimeField()
 	sunClose = models.TimeField()
 
-class Restaurant(models.Model):
+class Facility(models.Model):
 	name = models.CharField(max_length=255, unique=True)
 	description = models.TextField(blank=True)
 	address = models.CharField(max_length=255,blank=True)
@@ -62,9 +62,9 @@ class Restaurant(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
-class RestaurantHours(models.Model):
-	restaurant = models.ForeignKey(
-		Restaurant,
+class FacilityHours(models.Model):
+	facility = models.ForeignKey(
+		Facility,
 		on_delete=models.CASCADE,
 	)
 	monOpen = models.TimeField()
@@ -102,7 +102,7 @@ class Industry(models.Model):
 	def __str__(self) -> str:
 		return self.name
 
-class User(models.Model):
+class Student(models.Model):
 	TYPE_STUDENT = 'S'
 	TYPE_PARENT = 'P'
 	TYPE_TEACHER = 'T'
@@ -118,19 +118,19 @@ class User(models.Model):
 	type = models.CharField(max_length=2, choices=TYPE_CHOICES, default=TYPE_STUDENT)
 	industry = models.ForeignKey(
 		Industry,
-		on_delete=models.CASCADE,
+		on_delete=models.PROTECT,
 	)
 	region = models.ForeignKey(
 		Region,
-		on_delete=models.CASCADE,
+		on_delete=models.PROTECT,
 	)
 	campus = models.ForeignKey(
 		Campus,
-		on_delete=models.CASCADE,
+		on_delete=models.PROTECT,
 	)
+	authUser = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	notificationToken  = models.CharField(max_length=255, blank=True)
-
 
 class Notification(models.Model):
 	TYPE_INDUSTRY = 'I'
