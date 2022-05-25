@@ -10,6 +10,8 @@
 
 ## python manage.py startapp example
 
+## pip freeze > requirements.txt
+
 <!-- Django Comands -->
 
 ## python manage.py createsuperuser
@@ -22,6 +24,6 @@
 
 <!-- Docker Commands -->
 
-## docker build --tag pinktaco97/tafe-qld-campus-django:v5 .
+## docker build --tag pinktaco97/tafe-qld-campus-django:v6 .
 
-## docker save -o docker_images/tafe-qld-campus-django-v5.tar pinktaco97/tafe-qld-campus-django:v5
+## docker save -o docker_images/tafe-qld-campus-django-v6.tar pinktaco97/tafe-qld-campus-django:v6
