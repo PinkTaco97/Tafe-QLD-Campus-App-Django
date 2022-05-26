@@ -107,7 +107,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(choices=[('S', 'Student'), ('P', 'Parent/Guardian'), ('T', 'Teacher'), ('CS', 'Career Starter'), ('CC', 'Career Changer')], default='S', max_length=2)),
                 ('timeCreated', models.DateTimeField(auto_now_add=True)),
                 ('notificationToken', models.CharField(blank=True, max_length=255)),
-                ('authUser', models.OneToOneField(blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('authUser', models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('campus', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='tafe.campus')),
                 ('industry', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='tafe.industry')),
                 ('region', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='tafe.region')),

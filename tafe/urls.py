@@ -20,14 +20,17 @@ urlpatterns = [
 	path('campus/hours/<int:campusID>', views.campus_hours),
 
 	# Returns a list of Resturants for a given Campus.
-	path('resturant/list/<int:campusID>', views.resturant_list),
+	path('facility/list/<int:campusID>', views.facility_list),
 
 	# Returns the Trading Hours of a given Resturant.
-	path('resturant/hours/<int:resturantID>', views.resturant_hours),
+	path('facility/hours/<int:facilityID>', views.facility_hours),
 
 	# Returns a list of all Events.
 	path('events/list', views.events_list),
 
 	# Returns a list of all Upcoming Events.
 	path('events/upcoming', views.events_upcoming),
+
+	# Creates a Profile from the Posted Data.
+	path('profile/create', views.create_profile),
 ]

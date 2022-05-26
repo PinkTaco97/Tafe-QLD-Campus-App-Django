@@ -66,26 +66,26 @@ def region_campuses(request, regionID):
 
 # Returns a list of Resturants for a given Campus.
 @api_view(['GET'])
-def resturant_list(request, campusID):
+def facility_list(request, campusID):
 	try:
-		resturants = Restaurant.objects.filter(
+		resturants = Facility.objects.filter(
 			campus=campusID
 		).filter(
 			listed=True
 		)
-		serializer = RestaurantSerializer(resturants, many=True)
+		serializer = FacilitySerializer(resturants, many=True)
 		return Response(serializer.data)
-	except Restaurant.DoesNotExist:
+	except Facility.DoesNotExist:
 		return Response(status = status.HTTP_404_NOT_FOUND)
 
 # Returns the Trading Hours of a Resturant
 @api_view(['GET'])
-def resturant_hours(request, resturantID):
+def facility_hours(request, resturantID):
     try:
-        resturantHours = RestaurantHours.objects.get(campus=resturantID)
-        serializer = RestaurantHoursSerializer(resturantHours)
+        facilityHours = FacilityHours.objects.get(campus=resturantID)
+        serializer = FacilityHoursSerializer(facilityHours)
         return Response(serializer.data)
-    except RestaurantHours.DoesNotExist:
+    except FacilityHours.DoesNotExist:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
 # Returns a list of ALL Events.
@@ -105,3 +105,18 @@ def events_upcoming(request):
 	)
 	serializer = EventSerializer(queryset, many=True)
 	return Response(serializer.data)
+
+@api_view(['POST'])
+def create_profile(request):
+
+	# Deserialise Profile Data 
+	serializer = ProfileSerializer(data=request.data)
+
+	# Check whether the POSTed data is valid.
+	if serializer.is_valid():
+
+		# Save the new Profile in the Database.
+		serializer.save()
+		return Response(serializer.data, status=status.HTTP_201_CREATED)
+	else:
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

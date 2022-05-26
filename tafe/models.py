@@ -137,7 +137,7 @@ class Profile(models.Model):
 		Campus,
 		on_delete=models.PROTECT,
 	)
-	authUser = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+	authUser = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,null=True)
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	notificationToken  = models.CharField(max_length=255, blank=True)
 
