@@ -10,7 +10,7 @@
 
 ## python manage.py startapp example
 
-## pip freeze > requirements.txt
+## pipenv freeze > requirements.txt
 
 <!-- Django Comands -->
 
@@ -24,6 +24,6 @@
 
 <!-- Docker Commands -->
 
-## docker build --tag pinktaco97/tafe-qld-campus-django:v6 .
+## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.1 .
 
-## docker save -o docker_images/tafe-qld-campus-django-v6.tar pinktaco97/tafe-qld-campus-django:v6
+## docker save -o docker_images/tafe-qld-campus-django-v0.0.1.tar pinktaco97/tafe-qld-campus-django:v0.0.1

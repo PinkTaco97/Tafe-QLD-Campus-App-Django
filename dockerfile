@@ -11,9 +11,14 @@ ENV DB_DATABASE="django"
 ENV DB_USER="django"
 ENV DB_PASSWORD="REPLACE"
 
+RUN apt-get update
+RUN apt-get install -y cron
+
 WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 COPY . .
+
+RUN python3 manage.py crontab add
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 EXPOSE 8000

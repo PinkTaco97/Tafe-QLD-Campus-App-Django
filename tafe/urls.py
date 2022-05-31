@@ -33,4 +33,6 @@ urlpatterns = [
 
 	# Creates a Profile from the Posted Data.
 	path('profile/create', views.create_profile),
+
+	path('notification/send', views.send_notification),
 ]

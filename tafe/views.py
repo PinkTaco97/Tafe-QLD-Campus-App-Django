@@ -1,7 +1,19 @@
 from datetime import datetime
+from tkinter import E
+from urllib import response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from exponent_server_sdk import (
+    DeviceNotRegisteredError,
+    PushClient,
+    PushMessage,
+    PushServerError,
+    PushTicketError,
+)
+from requests.exceptions import ConnectionError, HTTPError
+
 from .models import *
 from .serializers import *
 from tafe import serializers
@@ -106,6 +118,7 @@ def events_upcoming(request):
 	serializer = EventSerializer(queryset, many=True)
 	return Response(serializer.data)
 
+# Creates a Profile in the database.
 @api_view(['POST'])
 def create_profile(request):
 
@@ -120,3 +133,61 @@ def create_profile(request):
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
 	else:
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Sends A Notification to a User.
+@api_view(['POST'])
+def send_notification(request):
+
+	# Whether there was an Error.
+	wasError = False
+
+	# Reference to the Error.
+	error: PushServerError
+
+	# Count of Notifications Sent.
+	count = 0
+
+	# Validation.
+	if (response.data["title"] == None):
+		return Response("Notification needs a title", status=status.HTTP_400_BAD_REQUEST)
+	elif (response.data["body"] == None):
+		return Response("Notification needs a body", status=status.HTTP_400_BAD_REQUEST)
+
+	# Get all profiles from the Database.
+	profiles = Profile.objects.all()
+
+	# Foreach Profile
+	for profile in profiles:
+		try:
+			# If the current profile dosnt have a notification token set.
+			if(profile.notificationToken == None):
+				continue
+			
+			# Send a Notification to the User.
+			PushClient().publish(PushMessage(
+				to = profile.notificationToken,
+				title = request.data["title"],
+				body = request.data["body"],
+				sound = "default"
+			))
+
+			# Increament the count.
+			count += 1
+
+		# If there was an Error.
+		except PushServerError as e:
+
+			# Save the Error.
+			error = e
+
+			# Print the Error to the Console.
+			print(e)
+
+	# If there was an Error.
+	if(wasError):
+		# Return the Error.
+		return Response(error, status=status.HTTP_400_BAD_REQUEST)
+	else:
+		# Return the amount of Notifications sent.
+		response = str(count) + " notifications sent"
+		return Response(response, status=status.HTTP_200_OK)
