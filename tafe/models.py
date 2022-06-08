@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 
@@ -77,8 +77,10 @@ class Facility(models.Model):
 		on_delete=models.CASCADE,
 	)
 	image = models.CharField(max_length=255,blank=True)
-	menuLink = models.CharField(max_length=255,blank=True)
-	bookingLink = models.CharField(max_length=255,blank=True)
+	link1Title = models.CharField(max_length=255,blank=True)
+	link1URL = models.CharField(max_length=255,blank=True)
+	link2Title = models.CharField(max_length=255,blank=True)
+	link2URL = models.CharField(max_length=255,blank=True)
 	campus = models.ForeignKey(
 		Campus,
 		on_delete=models.CASCADE,
@@ -137,9 +139,11 @@ class Profile(models.Model):
 		Campus,
 		on_delete=models.PROTECT,
 	)
-	authUser = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,null=True)
+	platform = models.CharField(max_length=10, blank=True)
+	authUser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True,null=True)
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	notificationToken  = models.CharField(max_length=255, blank=True)
+
 
 # Table to hold all of the Push Notifications.
 class Notification(models.Model):

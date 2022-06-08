@@ -4,7 +4,9 @@ charset-normalizer==2.0.12
 coreapi==2.3.3
 coreschema==0.0.4
 Django==4.0.4
+django-axes==5.35.0
 django-crontab==0.7.1
+django-ipware==4.0.2
 djangorestframework==3.13.1
 exponent-server-sdk==2.0.0
 idna==3.3

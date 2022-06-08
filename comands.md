@@ -8,9 +8,15 @@
 
 ## python manage.py runserver
 
+## python manage.py createsuperuser
+
 ## python manage.py startapp example
 
-## pipenv freeze > requirements.txt
+## pip freeze > requirements.txt
+
+<!-- Install Project Dependencies -->
+
+## pip install -r requirements.txt
 
 <!-- Django Comands -->
 
@@ -24,6 +30,6 @@
 
 <!-- Docker Commands -->
 
-## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.1 .
+## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.5 .
 
-## docker save -o docker_images/tafe-qld-campus-django-v0.0.1.tar pinktaco97/tafe-qld-campus-django:v0.0.1
+## docker save -o docker_images/tafe-qld-campus-django-v0.0.5.tar pinktaco97/tafe-qld-campus-django:v0.0.5

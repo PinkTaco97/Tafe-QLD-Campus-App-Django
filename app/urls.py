@@ -6,6 +6,9 @@ urlpatterns = [
     # Admin URLS
     path('admin/', admin.site.urls),
 
+    # Auth URLS
+    path('', include('authentication.urls')),
+
     # Tafe URLS
     path('', include('tafe.urls')),
 

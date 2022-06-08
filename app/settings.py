@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+import platform
 from pathlib import Path
+from telnetlib import AUTHENTICATION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,22 +33,48 @@ ALLOWED_HOSTS = [
     os.getenv('DJANGO_ALLOWED_HOSTS')
 ]
 
-# Application definition
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
+# Application definition
 INSTALLED_APPS = [
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third Party Apps
     'rest_framework',
-    'django_crontab',
+    'rest_framework.authtoken',
     'exponent_server_sdk',
+    'axes',
+    'django_crontab',
+
+    # First Party Apps
     'tafe',
-    'campus',
+    'authentication',
     'poi',
 ]
+
+# # If the Platform is Linux.
+# if(platform.system == 'Linux'):
+#     # Add the Crontab app to the INSTALLED_APPS array.
+#     INSTALLED_APPS.append('django_crontab')
+
+
+AUTH_USER_MODEL = 'authentication.User'
+LOGIN_URL = '/user/login'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,7 +84,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
+
+AXES_LOGIN_FAILURE_LIMIT=1
+AXES_COOLOFF_TIME = 0.01
+
+AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
+AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
+
+AXES_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
+AXES_RESET_ON_SUCCESS = True
+AXES_USE_USER_AGENT = True
 
 ROOT_URLCONF = 'app.urls'
 
@@ -121,7 +160,7 @@ TIME_ZONE = 'Australia/Queensland'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -137,3 +176,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRONJOBS  = [
     ('*/1 * * * *', 'tafe.cron.send_notifications')
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

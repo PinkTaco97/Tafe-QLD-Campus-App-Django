@@ -148,9 +148,9 @@ def send_notification(request):
 	count = 0
 
 	# Validation.
-	if (response.data["title"] == None):
+	if (request.data["title"] == None):
 		return Response("Notification needs a title", status=status.HTTP_400_BAD_REQUEST)
-	elif (response.data["body"] == None):
+	elif (request.data["body"] == None):
 		return Response("Notification needs a body", status=status.HTTP_400_BAD_REQUEST)
 
 	# Get all profiles from the Database.
