@@ -142,15 +142,17 @@ class Profile(models.Model):
 	platform = models.CharField(max_length=10, blank=True)
 	authUser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True,null=True)
 	timeCreated = models.DateTimeField(auto_now_add=True)
-	notificationToken  = models.CharField(max_length=255, blank=True)
+	notificationToken = models.CharField(max_length=255, blank=True)
 
 
 # Table to hold all of the Push Notifications.
 class Notification(models.Model):
+	TYPE_ALL = 'A'
 	TYPE_INDUSTRY = 'I'
 	TYPE_REGION = 'R'
 	TYPE_CAMPUS = 'C'
 	TYPE_CHOICES = [
+		(TYPE_ALL, 'All'),
 		(TYPE_INDUSTRY, 'Industry'),
 		(TYPE_REGION, 'Region'),
 		(TYPE_CAMPUS, 'Campus'),
@@ -158,17 +160,27 @@ class Notification(models.Model):
 	type = models.CharField(max_length=1, choices=TYPE_CHOICES, default=TYPE_CAMPUS)
 	title = models.CharField(max_length=255)
 	body = models.CharField(max_length=255)
-	data  = models.TextField()
+	data  = models.TextField(blank=True)
 	sendTime = models.DateTimeField()
+	sent = models.BooleanField(default=False)
 	industry = models.ForeignKey(
 		Industry,
 		on_delete=models.CASCADE,
+		blank=True,
+		null=True,
 	)
 	region = models.ForeignKey(
 		Region,
 		on_delete=models.CASCADE,
+		blank=True,
+		null=True,
 	)
 	campus = models.ForeignKey(
 		Campus,
 		on_delete=models.CASCADE,
+		blank=True,
+		null=True,
 	)
+
+	def __str__(self) -> str:
+		return self.title + " (" + self.type + ")"

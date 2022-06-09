@@ -34,5 +34,6 @@ urlpatterns = [
 	# Creates a Profile from the Posted Data.
 	path('profile/create', views.create_profile),
 
-	path('notification/send', views.send_notification),
+	# Sends a Notification to all Users.
+	path('notification/sendall', views.notification_sendall),
 ]

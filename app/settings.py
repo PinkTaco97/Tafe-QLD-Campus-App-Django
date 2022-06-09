@@ -17,7 +17,6 @@ from telnetlib import AUTHENTICATION
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -28,6 +27,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = bool(os.getenv('DJANGO_DEBUG_MODE'))
 
 ALLOWED_HOSTS = [
+    "localhost",
     "127.0.0.1",
     "192.0.0.5",
     os.getenv('DJANGO_ALLOWED_HOSTS')
@@ -38,7 +38,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# Application definition
+# Application Definition.
 INSTALLED_APPS = [
     # Django Apps
     'django.contrib.admin',
@@ -52,8 +52,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'exponent_server_sdk',
-    'axes',
     'django_crontab',
+    'axes',
+    
 
     # First Party Apps
     'tafe',
@@ -67,15 +68,18 @@ INSTALLED_APPS = [
 #     INSTALLED_APPS.append('django_crontab')
 
 
+# Authentication Settings.
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = '/user/login'
 
+# Rest Framework Settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
+# Middleware Settings.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -87,18 +91,19 @@ MIDDLEWARE = [
     'axes.middleware.AxesMiddleware',
 ]
 
+# AXES Settings.
 AXES_LOGIN_FAILURE_LIMIT=1
 AXES_COOLOFF_TIME = 0.01
-
 AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
 AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True
-
 AXES_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
 AXES_RESET_ON_SUCCESS = True
 AXES_USE_USER_AGENT = True
 
+# Root URLs.
 ROOT_URLCONF = 'app.urls'
 
+# Django Template Settings.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -120,7 +125,6 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE'),
@@ -134,7 +138,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -150,33 +153,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Australia/Queensland'
-
 USE_I18N = True
-
 USE_TZ = False
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CRONTAB_COMMAND_SUFFIX = '2>&1'
+
+# List of Cron Jobs (Scheduled Tasks).
 CRONJOBS  = [
-    ('*/1 * * * *', 'tafe.cron.send_notifications')
+    ('*/15 * * * *', 'tafe.cron.send_notifications', '>> /app/cron/notification.log'),
 ]
 
+# SMPT Server Settings.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

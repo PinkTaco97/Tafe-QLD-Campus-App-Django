@@ -22,7 +22,7 @@ class CampusAdmin(admin.ModelAdmin):
 	list_per_page = 10
 
 @admin.register(models.CampusHours)
-class CampusHoursAdmin(admin.ModelAdmin):
+class CampusHourAdmin(admin.ModelAdmin):
 	list_display = [
 		'campus',
 	]
@@ -40,7 +40,7 @@ class FacilityAdmin(admin.ModelAdmin):
 	list_per_page = 10
 
 @admin.register(models.FacilityHours)
-class FacilityHoursAdmin(admin.ModelAdmin):
+class FacilityHourAdmin(admin.ModelAdmin):
 	list_display = [
 		'facility',
 	]
@@ -72,5 +72,16 @@ class ProfileAdmin(admin.ModelAdmin):
 		'industry',
 		'region',
 		'campus',
+	]
+	list_per_page = 10
+
+@admin.register(models.Notification)
+class NotificationAdmin(admin.ModelAdmin):
+	list_display = [
+		'type',
+		'title',
+		'body',
+		'sendTime',
+		'sent',
 	]
 	list_per_page = 10

@@ -110,9 +110,13 @@ def events_list(request):
 # Returns a list of Upcoming Events.
 @api_view(['GET'])
 def events_upcoming(request):
+	# queryset = Event.objects.filter(
+	# 	listed=True
+	# ).filter(
+	# 	eventStart__gte=datetime.today()
+	# )
 	queryset = Event.objects.filter(
-		listed=True
-	).filter(
+		listed=True,
 		eventStart__gte=datetime.today()
 	)
 	serializer = EventSerializer(queryset, many=True)
@@ -136,7 +140,7 @@ def create_profile(request):
 
 # Sends A Notification to a User.
 @api_view(['POST'])
-def send_notification(request):
+def notification_sendall(request):
 
 	# Whether there was an Error.
 	wasError = False

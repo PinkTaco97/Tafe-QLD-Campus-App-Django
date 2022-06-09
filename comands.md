@@ -28,8 +28,18 @@
 
 ## python manage.py migrate
 
+<!-- Cron Commands -->
+
+## service cron start
+
+## python manage.py crontab show
+
+## python manage.py crontab run fce698498e4bf03e48514882c623a7cc
+
 <!-- Docker Commands -->
 
-## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.5 .
+## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.32 .
 
-## docker save -o docker_images/tafe-qld-campus-django-v0.0.5.tar pinktaco97/tafe-qld-campus-django:v0.0.5
+## docker run -p 8000:8000 --env-file .env pinktaco97/tafe-qld-campus-django:v0.0.32
+
+## docker save -o docker_images/tafe-qld-campus-django-v0.0.32.tar pinktaco97/tafe-qld-campus-django:v0.0.32
