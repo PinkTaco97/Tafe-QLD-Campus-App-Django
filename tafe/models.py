@@ -1,7 +1,25 @@
+import sys
 from django.db import models
 from django.conf import settings
 
 # Create your models here.
+
+# Table to hold all of the Points of Intrests.
+class Point(models.Model):
+	title = models.CharField(max_length=255, unique=True)
+	description = models.TextField()
+	image = models.CharField(max_length=255, blank=True)
+	code = models.CharField(max_length=255, blank=True)
+	last_update = models.DateTimeField(auto_now=True)
+	time_created = models.DateTimeField(auto_now_add=True)
+
+	def save(self, *args, **kwargs):
+		self.code = hash(self.title) % ((sys.maxsize + 1) * 2)
+		super().save(*args, **kwargs)
+		
+
+	def __str__(self) -> str:
+		return self.title
 
 # Table to hold all of the Regions e.g. Gold Coast, Greater Brisbane.
 class Region(models.Model):
@@ -100,6 +118,17 @@ class Event(models.Model):
 	image = models.CharField(max_length=255, blank=True)
 	eventStart = models.DateTimeField()
 	eventEnd = models.DateTimeField()
+	lastUpdate = models.DateTimeField(auto_now=True)
+	timeCreated = models.DateTimeField(auto_now_add=True)
+	listed = models.BooleanField(default=True)
+
+# Table to hold all of the SDG information.
+class Goal(models.Model):
+	title = models.CharField(max_length=255)
+	description = models.TextField(blank=True)
+	infoLink = models.CharField(max_length=255)
+	image = models.CharField(max_length=255, blank=True)
+	icon = models.CharField(max_length=255, blank=True)
 	lastUpdate = models.DateTimeField(auto_now=True)
 	timeCreated = models.DateTimeField(auto_now_add=True)
 	listed = models.BooleanField(default=True)

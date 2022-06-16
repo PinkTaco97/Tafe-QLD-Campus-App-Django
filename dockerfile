@@ -1,6 +1,19 @@
 # Import a Base Linux OS with Python 3.8 installed.
 FROM python:3.8
 
+# Setup the Environment Variables.
+# Django
+ENV DJANGO_SECRET_KEY=REPLACE
+ENV DJANGO_DEBUG_MODE=True
+ENV DJANGO_ALLOWED_HOSTS=139.218.85.171
+#Database
+ENV DB_ENGINE=django.db.backends.mysql
+ENV DB_HOST=139.218.85.171
+ENV DB_PORT=3306
+ENV DB_DATABASE=django
+ENV DB_USER=django
+ENV DB_PASSWORD=REPLACE
+
 # Get the Latest Updates.
 RUN apt-get update
 

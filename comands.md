@@ -34,12 +34,12 @@
 
 ## python manage.py crontab show
 
-## python manage.py crontab run fce698498e4bf03e48514882c623a7cc
+## python manage.py crontab run 99e611c372e679e14d49dafd5d9ed833
 
 <!-- Docker Commands -->
 
-## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.32 .
+## docker build --tag pinktaco97/tafe-qld-campus-django:v0.0.45 .
 
-## docker run -p 8000:8000 --env-file .env pinktaco97/tafe-qld-campus-django:v0.0.32
+## docker run -p 8000:8000 --env-file .env pinktaco97/tafe-qld-campus-django:v0.0.45
 
-## docker save -o docker_images/tafe-qld-campus-django-v0.0.32.tar pinktaco97/tafe-qld-campus-django:v0.0.32
+## docker save -o docker_images/tafe-qld-campus-django-v0.0.45.tar pinktaco97/tafe-qld-campus-django:v0.0.45

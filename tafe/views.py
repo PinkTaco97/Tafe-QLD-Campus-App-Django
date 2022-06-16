@@ -122,6 +122,24 @@ def events_upcoming(request):
 	serializer = EventSerializer(queryset, many=True)
 	return Response(serializer.data)
 
+# Returns a list of ALL SDG's.
+@api_view(['GET'])
+def goal_list(request):
+	queryset = Goal.objects.filter(
+		listed=True
+	)
+	serializer = GoalSerializer(queryset, many=True)
+	return Response(serializer.data)
+
+# Returns a list of ALL Industries.
+@api_view(['GET'])
+def industry_list(request):
+	queryset = Industry.objects.filter(
+		listed=True
+	)
+	serializer = IndustrySerializer(queryset, many=True)
+	return Response(serializer.data)
+
 # Creates a Profile in the database.
 @api_view(['POST'])
 def create_profile(request):
@@ -195,3 +213,18 @@ def notification_sendall(request):
 		# Return the amount of Notifications sent.
 		response = str(count) + " notifications sent"
 		return Response(response, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def points_list(request):
+	queryset = Point.objects.all()
+	serializer = PointSerializer(queryset, many=True)
+	return Response(serializer.data)
+	
+@api_view(['GET'])
+def point_detail(request, id):
+	try:
+		point = Point.objects.get(code=id)
+		serializer = PointSerializer(point)
+		return Response(serializer.data)
+	except Point.DoesNotExist:
+		return Response(status = status.HTTP_404_NOT_FOUND)

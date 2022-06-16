@@ -34,6 +34,18 @@ urlpatterns = [
 	# Creates a Profile from the Posted Data.
 	path('profile/create', views.create_profile),
 
+	# Returns a list of all Industries.
+	path('industry/list', views.industry_list),
+
 	# Sends a Notification to all Users.
 	path('notification/sendall', views.notification_sendall),
+	
+	# Returns a list of all Points.
+	path('point/list', views.points_list),
+
+	# Returns detials of  agiven Point.
+	path('point/<int:id>', views.point_detail),
+
+	# Returns a list of all SDG's.
+	path('goal/list', views.goal_list),
 ]

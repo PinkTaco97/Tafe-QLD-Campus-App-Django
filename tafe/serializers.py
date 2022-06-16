@@ -103,6 +103,19 @@ class EventSerializer(serializers.ModelSerializer):
             'eventEnd',
 		]
 
+class GoalSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Goal
+		fields = [
+			'id',
+			'title',
+			'description',
+			'infoLink',
+			'image',
+            'icon',
+            'image',
+		]
+
 class IndustrySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Industry
@@ -124,35 +137,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 			'notificationToken',
 		]
 
-# class RegisterSerializer(serializers.ModelSerializer):
-# 	email = serializers.EmailField(
-# 		required = True,
-# 		validators=[UniqueValidator(queryset=User.objects.all())]
-# 	)
-# 	password = serializers.CharField(write_only=True, required=True)
-
-# 	class Meta:
-# 		model = User
-# 		fields = ('email', 'password', 'first_name')
-# 		extra_kwargs = {
-# 			'first_name': {'required': True},
-# 		}
-	
-# 	def validate(self, values):
-# 		if values['email'] == None:
-# 			raise serializers.ValidationError({"email": "Email field can't be empty."})
-# 		elif "@" not in values['email'] and ".com" not in values['email']:
-# 			raise serializers.ValidationError({"email": "Email field must contain @ and .com"})
-# 		elif values['password'] == None:
-# 			raise serializers.ValidationError({"password": "Password field can't be empty."})
-# 		return values
-	
-# 	def create (self, validated_data):
-# 		user = User.objects.create(
-# 			email=validated_data['email'],
-# 			first_name=validated_data['first_name'],
-# 		)
-
-# 		user.set_password(validated_data['password'])
-# 		user.save()
-# 		return user
+class PointSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Point
+		fields = ['title', 'description', 'image']

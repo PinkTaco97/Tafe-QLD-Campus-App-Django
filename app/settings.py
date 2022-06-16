@@ -62,12 +62,6 @@ INSTALLED_APPS = [
     'poi',
 ]
 
-# # If the Platform is Linux.
-# if(platform.system == 'Linux'):
-#     # Add the Crontab app to the INSTALLED_APPS array.
-#     INSTALLED_APPS.append('django_crontab')
-
-
 # Authentication Settings.
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = '/user/login'
@@ -126,14 +120,14 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('DB_ENGINE'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-        'NAME': os.getenv('DB_DATABASE'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD')
-    }
+	'default': {
+		'ENGINE': os.getenv('DB_ENGINE'),
+		'HOST': os.getenv('DB_HOST'),
+		'PORT': os.getenv('DB_PORT'),
+		'NAME': os.getenv('DB_DATABASE'),
+		'USER': os.getenv('DB_USER'),
+		'PASSWORD': os.getenv('DB_PASSWORD')
+	}
 }
 
 # Password validation
@@ -172,13 +166,13 @@ CRONTAB_COMMAND_SUFFIX = '2>&1'
 
 # List of Cron Jobs (Scheduled Tasks).
 CRONJOBS  = [
-    ('*/15 * * * *', 'tafe.cron.send_notifications', '>> /app/cron/notification.log'),
+    ('*/15 * * * *', 'tafe.cron.send_notifications', '>> /app/logs/notification.log'),
 ]
 
 # SMPT Server Settings.
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USER = os.getenv('EMAIL_USER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
