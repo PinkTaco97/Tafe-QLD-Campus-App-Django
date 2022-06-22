@@ -60,8 +60,8 @@ class Campus(models.Model):
 		Region,
 		on_delete=models.PROTECT,
 	)
-	latitude = models.DecimalField(max_digits=8, decimal_places=6)
-	longitude = models.DecimalField(max_digits=9, decimal_places=6)
+	latitude = models.DecimalField(max_digits=8, decimal_places=6, blank=True, default="0.000000")
+	longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True default="0.000000")
 	listed = models.BooleanField(default=True)
 
 	def __str__(self) -> str:
